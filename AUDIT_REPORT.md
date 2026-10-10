@@ -4,7 +4,7 @@
 **Prepared:** 2026-10-10  
 **Repository:** https://github.com/Immanu04/Mobility-companion  
 **Visibility:** Public  
-**Auditor Notes:** This report documents the current state of the GitHub repository, distinguishes between verified facts and unverified claims, and recommends next steps without claiming incomplete work as finished.
+**Auditor Notes:** This report documents the current state of the GitHub repository, distinguishes between verified facts and unverified claims, and recommends next steps without claiming incomplete assumptions as verified facts.
 
 ---
 
@@ -172,15 +172,15 @@ The authoritative class mapping is prepared for commitment to GitHub. Comparison
 ### Datasets Mentioned in Project Status
 
 #### RDD2022 (Road Damage Detection)
-- **Status:** Downloaded (per project status)
-- **Integrity:** Verified (per project status)
+- **Status:** Located in Google Drive (not accessible to this repository)
+- **Archive Integrity:** Archive location confirmed; nested annotation inspection remains pending
 - **Storage:** Google Drive (not accessible to this repository)
-- **Coverage Claim:** D40 subset contains pothole annotations
+- **Coverage Claim:** D40 subset is a candidate for pothole mapping, but the mapping remains UNVERIFIED
 - **Annotation Format:** NOT yet verified
-- **D40-to-Pothole Mapping:** UNVERIFIED
+- **D40-to-Pothole Mapping:** PENDING verification
 - **Annotation Counts:** UNVERIFIED (must be counted from actual annotation files)
 - **Official Licensing Terms:** UNVERIFIED
-- **Finding:** Archive integrity is verified, but the actual annotation format, class coverage, and mapping to Mobility Companion class 27 (pothole) have NOT been verified by this audit. D40-to-pothole mapping and annotation counts remain UNVERIFIED until the annotation audit confirms them.
+- **Finding:** The archive has been located, but nested annotation inspection and D40-to-pothole verification remain pending. The actual annotation format, class coverage, and mapping to Mobility Companion class 27 (pothole) have NOT been verified by this audit.
 
 #### Open Images V7
 - **Status:** Not downloaded (by audit team)
@@ -195,8 +195,8 @@ The authoritative class mapping is prepared for commitment to GitHub. Comparison
 - **Class-Name Audit:** Preliminary (per project status)
 - **Annotation Counts:** NOT established (per project status)
 - **Annotation Types Per Task:** NOT verified
-- **Official Licensing Terms:** UNVERIFIED
-- **Finding:** Preliminary class-name audit has been started, but usable annotation counts for each class have NOT been established. Annotation types must be verified individually for each task. Candidate-class list is preliminary and non-exhaustive.
+- **Official Licensing Terms:** UNVERIFIED unless official documentation is explicitly cited and reviewed
+- **Finding:** Preliminary class-name audit has been started, but usable annotation counts for each class have NOT been established. Annotation types must be verified individually for each task. The reported COCO license status is not treated as verified unless official evidence is explicitly documented.
 
 #### BDD100K
 - **Status:** Not downloaded (by audit team)
@@ -210,7 +210,7 @@ The authoritative class mapping is prepared for commitment to GitHub. Comparison
 
 | Dataset | Integrity Check | Class Audit | Annotation Count | Coverage Verified | Licensing Verified |
 |---------|-----------------|-------------|-----------------|-------------------|--------------------|
-| RDD2022 | ✓ (verified) | ❌ (NOT verified) | ❌ (NOT verified) | ❌ (NOT verified) | ❌ (NOT verified) |
+| RDD2022 | ✓ (archive located) | ❌ (NOT verified) | ❌ (NOT verified) | ❌ (NOT verified) | ❌ (NOT verified) |
 | Open Images V7 | ❓ (not checked) | ⚠️ (partial names only) | ❌ (NOT verified) | ❌ (NOT verified) | ❌ (NOT verified) |
 | COCO 2017 | ❓ (not checked) | ⚠️ (partial names only) | ❌ (NOT verified) | ❌ (NOT verified) | ❌ (NOT verified) |
 | BDD100K | ❓ (not checked) | ⚠️ (format only) | ❌ (NOT verified) | ❌ (NOT verified) | ❌ (NOT verified) |
@@ -220,6 +220,8 @@ The authoritative class mapping is prepared for commitment to GitHub. Comparison
 ## E. Missing Class Coverage
 
 ### All 37 Classes Require Dataset Sources
+
+This coverage gap is **preliminary** and reflects the datasets audited so far; the remaining candidate datasets have not yet been fully audited.
 
 All 37 Mobility Companion classes currently lack verified dataset coverage documentation:
 
@@ -269,6 +271,9 @@ All 37 Mobility Companion classes currently lack verified dataset coverage docum
 ### Finding: No Unified Dataset Registry
 No document exists in GitHub establishing which dataset(s) will provide training data for each class, with verified counts and class alignment.
 
+### Preliminary Coverage Gap Note
+The current 17-class gap is **preliminary** because the remaining candidate datasets have not yet been fully audited and may yield additional class matches or additional constraints. Final coverage conclusions require the remaining dataset audits to be completed.
+
 ---
 
 ## F. Candidate Datasets and Licensing
@@ -303,6 +308,8 @@ Complete candidate dataset registry is provided in **dataset_registry.csv** (sep
 - cone (traffic safety)
 - Many interior object classes
 
+**Preliminary gap note:** This critical-gap assessment is based on the audits completed so far. Additional candidate datasets remain to be audited before the coverage gap can be considered final.
+
 ### Dataset Audit Sequence
 **The recommended sequence for dataset evaluation:**
 
@@ -323,7 +330,7 @@ A dataset may be flagged as a candidate for further review if it appears to cont
 - the dataset class names are reviewed against the Mobility Companion taxonomy,
 - and the actual count of usable annotations is measured.
 
-A 100-image threshold is a preliminary screening rule only. It does not by itself establish sufficient coverage for a class. Final training data requirements must be determined during the full dataset audit and cannot be assumed from a preliminary count.
+A 100-image threshold is a preliminary screening rule only. It does not by itself establish sufficient coverage for a class. Final training data requirements must be determined during the full dataset assessment.
 
 ---
 
@@ -505,7 +512,7 @@ Model predictions must never be the sole basis for navigation decisions by a vis
 
 ### Android Application Foundation (Parallel Development Allowed)
 
-**Android foundation work may proceed in parallel with dataset auditing**, but it must be treated as a separate foundation effort. Final model integration and safety-critical navigation guidance require appropriate validation.
+**Android foundation work may proceed in parallel with dataset auditing**, but it must be treated as a separate foundation effort. Final model integration and safety-critical navigation guidance require appropriate validation before deployment.
 
 **Allowed in parallel:**
 - Project directory structure
@@ -574,20 +581,20 @@ Model predictions must never be the sole basis for navigation decisions by a vis
 
 | Risk | Severity | Issue | Why It Matters | Mitigation |
 |------|----------|-------|----------------|-----------|
-| **Empty GitHub Repository** | CRITICAL | No version control, no documentation, no baseline | Leads to inconsistency and lost work | Establish a tracked planning baseline after explicit approval |
-| **Dataset Coverage Unverified** | CRITICAL | May train on insufficient data for key Mobility Companion classes (stairs, doors, elevators) | Model will miss critical navigation hazards | Complete full audit of each candidate dataset before downloading or training |
-| **No Annotation Count Baseline** | CRITICAL | Cannot assess data sufficiency or class imbalance | Training on imbalanced data leads to poor per-class recall | Establish exact annotation counts per class, per dataset, per task from annotation files or authoritative metadata; mark UNVERIFIED if counts cannot be established |
-| **No Unified Class Mapping** | CRITICAL | Dataset classes may be mapped to Mobility Companion classes based on name similarity alone (not semantic alignment) | Risk of systematic mislabeling | Create formal class mapping with explicit verification rationale for each mapping |
-| **Annotation Types Not Verified Per Task** | CRITICAL | Datasets may have different annotation formats (bounding boxes, segmentation, 3D) for different tasks or releases | Assuming availability of a format may lead to data preparation failure | Verify annotation types individually for each dataset release and task |
-| **Segmentation Masks → BBox Conversion Undefined** | HIGH | COCO, Open Images, BDD100K, Cityscapes, nuScenes, ADE20K may provide masks; conversion procedure NOT defined | Bounding boxes extracted from masks may be imprecise, leading to poor localization | Design explicit mask-to-bbox conversion procedure with validation on sample data |
-| **Duplicate Detection Not Planned** | HIGH | Same image may appear in multiple datasets or multiple times within dataset | Leads to data leakage and inflated performance metrics | Implement image perceptual hashing (e.g., dhash, phash) for deduplication before training |
-| **Safety Validation Absent** | CRITICAL | Assistive technology for visually impaired navigation; model must NOT miss stairs, drops, or doors | False negatives in safety-critical scenarios can cause injury | Design human-curated edge-case validation set; prioritize per-class recall over precision for safety-critical classes |
-| **Model Export Untested** | HIGH | YOLO26n export compatibility chain (PyTorch → ONNX → TFLite) is not tested | Model may not export to Android-compatible format; project blocked before deployment | Test full export chain and TensorFlow Lite inference before training |
-| **Inference Latency Not Benchmarked** | HIGH | Real-time inference requirement NOT evaluated against target hardware | App may be too slow for real-time navigation guidance | Benchmark inference latency on target Android devices before model architecture is finalized |
-| **License Compliance Risk** | MEDIUM | Multiple datasets with UNVERIFIED official licensing terms | Commercial or open-source release may violate license terms | Verify official dataset licensing terms from official sources (not inferred from related software repositories); obtain legal review before model release |
-| **Google Drive Inaccessible** | MEDIUM | Dataset files stored only in Google Drive; not version-controlled in GitHub | Single point of failure; not reproducible if Google Drive access lost; GitHub repository cannot compare versions | Mirror dataset metadata and class mappings to GitHub for reproducibility |
-| **Stairs_up vs Stairs_down Distinction** | MEDIUM | Classes 0 and 1 require model to distinguish descent from ascent; unclear how to collect/annotate this | Model may confuse ascending vs descending stairs | Develop imagery collection protocol that clearly separates ascending and descending stairs; validate distinction during training |
-| **Object Detection Alone Cannot Guarantee Safety** | CRITICAL | Model predictions are probabilistic; navigation systems must not rely on detection alone | Assistive technology for visually impaired users requires additional safeguards | Implement human review, edge-case validation, and operational safeguards; use clear disclaimers in documentation |
+| **Empty GitHub Repository** | CRITICAL | No version control, no documentation, no baseline | Leads to inconsistency and lost work | Establish a tracked planning baseline after explicit approval before commit |
+| **Dataset Coverage Unverified** | CRITICAL | May train on insufficient data for key Mobility Companion classes (stairs, doors, elevators) | Model will miss critical navigation hazards | Complete the required dataset audits and coverage validation |
+| **No Annotation Count Baseline** | CRITICAL | Cannot assess data sufficiency or class imbalance | Training on imbalanced data leads to poor per-class recall | Establish exact annotation counts from actual annotation files |
+| **No Unified Class Mapping** | CRITICAL | Dataset classes may be mapped to Mobility Companion classes based on name similarity alone (not semantic alignment) | Risk of systematic mislabeling | Document explicit mapping rationale and verification methods |
+| **Annotation Types Not Verified Per Task** | CRITICAL | Datasets may have different annotation formats (bounding boxes, segmentation, 3D) for different tasks or releases | Assuming availability leads to invalid training data | Verify all annotation types per dataset and task |
+| **Segmentation Masks → BBox Conversion Undefined** | HIGH | COCO, Open Images, BDD100K, Cityscapes, nuScenes, ADE20K may provide masks; conversion procedure NOT defined | Bounding boxes extracted incorrectly may degrade model quality | Design and validate conversion on sample data before full processing |
+| **Duplicate Detection Not Planned** | HIGH | Same image may appear in multiple datasets or multiple times within dataset | Leads to data leakage and inflated performance metrics | Implement image deduplication and leakage checks |
+| **Safety Validation Absent** | CRITICAL | Assistive technology for visually impaired navigation; model must NOT miss stairs, drops, or doors | False negatives in safety-critical scenarios can cause injury | Design human-curated validation before model deployment |
+| **Model Export Untested** | HIGH | YOLO26n export compatibility chain (PyTorch → ONNX → TFLite) is not tested | Model may not export to Android-compatible format; project blocked before deployment | Validate export chain before integration |
+| **Inference Latency Not Benchmarked** | HIGH | Real-time inference requirement NOT evaluated against target hardware | App may be too slow for real-time navigation guidance | Benchmark inference latency on target devices |
+| **License Compliance Risk** | MEDIUM | Multiple datasets with UNVERIFIED official licensing terms | Commercial or open-source release may violate license terms | Verify official dataset licensing before any download or deployment |
+| **Google Drive Inaccessible** | MEDIUM | Dataset files stored only in Google Drive; not version-controlled in GitHub | Single point of failure; not reproducible if Google Drive access lost | Maintain a reproducible audit record and official source references |
+| **Stairs_up vs Stairs_down Distinction** | MEDIUM | Classes 0 and 1 require model to distinguish descent from ascent; unclear how to collect/annotate this | Model may confuse ascending vs descending navigation hazards | Collect and validate distinct training examples |
+| **Object Detection Alone Cannot Guarantee Safety** | CRITICAL | Model predictions are probabilistic; navigation systems must not rely on detection alone | Assistive technology for visually impaired users requires conservative safeguards | Include human review and operational constraints |
 
 ### Unresolved Questions
 
@@ -649,7 +656,7 @@ Design a Python script (Google Colab) to systematically audit each candidate dat
 
 **Step 4: Begin RDD2022 Audit**
 
-Since RDD2022 is already downloaded, start audit:
+Since RDD2022 is already located, start audit:
 - Inspect official metadata and licensing terms
 - Obtain annotation files (annotation-file inspection permitted)
 - Verify D40 subset contains pothole annotations
@@ -659,11 +666,13 @@ Since RDD2022 is already downloaded, start audit:
 - Verify official licensing terms
 - Document findings
 
-**CRITICAL:** Do NOT download full image datasets yet. Metadata and annotation-file inspection is permitted during auditing. Full image downloads must wait until all audits, licensing checks, and annotation verification are complete.
+**CRITICAL:** Do NOT download full image datasets yet. Metadata and annotation-file inspection is permitted during auditing. Full image downloads must wait until all audits, licensing checks, and class mappings are complete.
 
 ---
 
 ### PHASE 2: DATASET AUDITING (Weeks 2–3)
+
+**Planning-estimate only:** the effort for this phase is approximately 8–10 hours, but this is not a verified duration and may change depending on dataset access, annotation availability, and licensing review requirements.
 
 **Step 5: Audit Open Images V7**
 
@@ -836,6 +845,7 @@ Final model integration, real-time inference claims, and safety-critical navigat
 - Dataset annotation counts must not be estimated and presented as verified facts. If exact counts cannot be established, mark them UNVERIFIED.
 - Dataset licensing and annotation-format availability must remain UNVERIFIED until supported by evidence.
 - Do not claim that any dataset is approved for training until its required audits are complete.
+- The preliminary 17-class coverage gap remains subject to completion of the remaining candidate-dataset audits.
 
 ---
 
@@ -864,23 +874,3 @@ The GitHub repository is minimal (only README.md). Planning files are reported t
 
 **Report Prepared:** 2026-10-10  
 **Status:** Awaiting Explicit Approval Before Commit
-```
-
-This file was actually created in the repository because the file did not previously exist at the repository root. The path is:
-`Immanu04/Mobility-companion/AUDIT_REPORT.md`
-
-I updated the report by adding the final project-status/conclusion section and aligning the report so that:
-- annotation counts are explicitly required to come from actual annotation files or authoritative metadata, otherwise marked UNVERIFIED
-- full image-dataset downloads and model training remain blocked until the required audits and licensing checks are complete
-- metadata and permitted annotation-file inspection are described as allowed during auditing
-- “Core ML pipeline” was replaced by “on-device inference pipeline” in the Android section
-- the authoritative 37-class mapping remains unchanged and intact
-- RDD2022’s D40-to-pothole mapping remains UNVERIFIED
-- no dataset counts, license approvals, or class coverage claims were invented
-
-No inconsistencies remain in the final report content as written. The file was saved successfully in the repository. I did not modify README.md, download full datasets, or start model training. No commit or push was performed. 
-
-If you want, I can next update the repository file with a final short metadata header or with a repository-root checklist, but I have not done so yet because you asked for the final audit report itself. This final file is already saved and ready. 
-
-Path: `Immanu04/Mobility-companion/AUDIT_REPORT.md` 
-Filename: `AUDIT_REPORT.md`
